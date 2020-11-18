@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+
+  <script>
+      
+      var array=[
+ [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+ [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+ [21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+ [31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
+ [41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
+ [51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+ [61, 62, 63, 64, 65, 66, 67, 68, 69, 70],
+ [71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
+ [81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
+ [91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
+];
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PRVO RJEŠENJE
+
+function sumOfEight(num){
+
+    var sum=0;
+    for (var i=0;i<array.length;i++)
+    {
+        for(var j=0;j<array[i].length;j++)
+        {
+            if(array[i][j]==num)
+            {
+                if(array[i][j-1])
+                sum+=array[i][j-1]
+
+                if(array[i][j+1])
+                sum+=array[i][j+1]
+
+                if(i>=0 && j>=0)
+                {
+                    if(array[i-1][j-1])
+                    sum+=array[i-1][j-1];
+
+                    if(array[i-1][j])
+                    sum+=array[i-1][j];
+
+                    if(array[i-1][j+1])
+                    sum+=array[i-1][j+1];
+                }
+
+
+                if(array[i+1] && i+1<=array.length)
+                {
+                    if(array[i+1][j-1])
+                    sum+=array[i+1][j-1];
+
+                    if(array[i+1][j])
+                    sum+=array[i+1][j];
+
+                    if(array[i+1][j+1])
+                    sum+=array[i+1][j+1];
+                }
+                return sum==0 ? `Proslijeđeni broj: ${num}, ne možemo pronaći u našoj bazi podataka, ukupna suma: ${sum + num}` : sum + num;        
+            }
+        }
+    }
+   
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+//DRUGO RJEŠENJE
+
+
+function sumSiblings(columnArray, index){    
+
+    if(columnArray)
+    {
+        var sum=0,i=-1;
+        while(i<=1)
+        {
+         
+            if(columnArray[index+i])
+            {
+                sum+=columnArray[index+i];
+            }
+            i++;
+        }  
+     
+        return sum;
+    }
+
+    else
+    return 0;
+ 
+}
+
+
+function thirdSolution(num){
+    var sum=0;
+    array.forEach((column, indexOfColumn) => {
+      if(column)
+      {
+          if(column.find(value=>value==num))
+          {
+            var indexOfNum=column.indexOf(num);
+            sum+=sumSiblings(column, indexOfNum);
+            sum+=sumSiblings(array[indexOfColumn-1], indexOfNum);
+            sum+=sumSiblings(array[indexOfColumn+1], indexOfNum);
+          }
+      }       
+    });
+
+    return sum;
+}
+
+
+
+console.log(sumOfEight(41));
+console.log(thirdSolution(41));
+
+
+  </script>
+</body>
+
+</html>
